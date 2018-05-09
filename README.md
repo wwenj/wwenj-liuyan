@@ -1,13 +1,21 @@
-# 个人网站留言板部分
- [个人网站地址 http://www.wwenj.com/](http://www.wwenj.com/)
+# my-project
 
- ## 项目截图
+> liuyan
 
+## Build Setup
 
-## 功能实现
-* **发布留言:** 
-* **回复留言:** 
-* **删除留言**
-作者 [[ wwenj ]](http://www.wwenj.com/) <br>
-2018 年 5月 5日
+``` bash
+# install dependencies
+npm install
 
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+```
+
+For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
