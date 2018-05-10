@@ -22,8 +22,8 @@ module.exports = {
   // add your custom rules here
   rules: {
     'semi': ['off', 'always'],// 分号结尾
-    "space-before-function-paren": ["off", "always"],
-    "quotes": [0, "single"],
+    "space-before-function-paren": ["off", "always"], //函数括号前不允许空格
+    "quotes": [0, "single"], //用双引号
     // allow async-await
     'generator-star-spacing': 'off',
     // allow debugger during development
