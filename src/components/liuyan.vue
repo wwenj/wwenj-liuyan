@@ -73,7 +73,8 @@ export default {
     listAjax: function() {
       var that = this;
       this.axios({
-        url: "../../static/json/list.json",
+        // url: "../../static/json/list.json",
+        url: "http://wwenj.com/liuyan?r=lst",
         method: "get",
         params: {
           limit: that.limit
@@ -98,7 +99,8 @@ export default {
       var user = localStorage.user;
       user = JSON.parse(user);
       this.axios({
-        url: "../../static/json/index.json",
+        // url: "../../static/json/index.json",
+        url: "http://wwenj.com/liuyan?r=add",
         method: "get",
         params: {
           user_name: user.user_name,
@@ -190,7 +192,8 @@ export default {
         /* 删除列表项 */
         this.list.splice(index, 1);
         this.axios({
-          url: "../../static/json/index.json",
+          // url: "../../static/json/index.json",
+          url: "http://wwenj.com/liuyan?r=del",
           method: "get",
           params: {
             cid: cid,
@@ -448,9 +451,6 @@ textarea {
   color: rgb(75, 73, 73);
 }
 .btm {
-  /* width: 100px; */
-  /* height: 10px; */
-  /* border: 1px solid black; */
   position: absolute;
   right: 15px;
   bottom: 10px;

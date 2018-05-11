@@ -35,8 +35,8 @@
               </a>
             </span>
             <span>
-              <a href="#">
-                <img src="../../static/img/you.png" title="邮箱" width="25" height="25">
+              <a href="https://segmentfault.com/u/xiaojian_58f49e4595dce" target="_Blank">
+                <img src="../../static/img/you.png" title="SegmentFault" width="25" height="25">
               </a>
             </span>
             <span>
