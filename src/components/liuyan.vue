@@ -32,7 +32,7 @@
               <span class="list-time">{{item.time}}</span>
               <p class="btm">
                 <a @click="deleteList(item.cid, index)">删除</a>
-                <a>回复</a>
+                <a @click="toUser(item.user_name)">回复</a>
               </p>
             </div>
           </li>
@@ -44,6 +44,7 @@
 </template>
 
 <script>
+// import $ from "jquery";
 export default {
   name: "Liuyan",
   data() {
@@ -57,7 +58,7 @@ export default {
       token: "",
       user_sex: "",
       list: [],
-      limit: [0, 9]
+      limit: 15
     };
   },
   mounted() {
@@ -74,7 +75,7 @@ export default {
       var that = this;
       this.axios({
         // url: "../../static/json/list.json",
-        url: "http://wwenj.com/liuyan?r=lst",
+        url: "http://192.168.1.147/index.php?r=lst",
         method: "get",
         params: {
           limit: that.limit
@@ -85,22 +86,24 @@ export default {
           if (res.data.error_code !== 0) {
             alert(res.data.message);
           } else {
+            // var aa = JSON.parse(res.data.data);
             res.data.data.list.forEach(function(item, index, array) {
               that.list.push(item);
             });
           }
         })
         .catch(function(err) {
-          alert("ajax请求出错，错误信息：" + err);
+          alert("获取评论ajax请求出错，错误信息：" + err);
         });
     },
     /* 评论 */
     liuyanAjax: function() {
+      var that = this;
       var user = localStorage.user;
       user = JSON.parse(user);
       this.axios({
         // url: "../../static/json/index.json",
-        url: "http://wwenj.com/liuyan?r=add",
+        url: "http://192.168.1.147/index.php?r=add",
         method: "get",
         params: {
           user_name: user.user_name,
@@ -114,10 +117,14 @@ export default {
         .then(function(res) {
           if (res.data.error_code !== 0) {
             alert(res.data.message);
+          } else {
+            // alert(that.list[0])
+            console.log(that.list[0].cid, res.data.data.last);
+            that.list[0].cid = res.data.data.last;
           }
         })
         .catch(function(err) {
-          alert("ajax请求出错，错误信息：" + err);
+          alert("增加评论ajax请求出错，错误信息：" + err);
         });
     },
     /* 聚焦 */
@@ -143,13 +150,14 @@ export default {
         user_name: user.user_name,
         time: "17:20 2018-5-4",
         img: "",
-        content: this.inputAdd
+        content: this.inputAdd,
+        cid: 0
       };
-      this.list.unshift(addCon);
       if (localStorage.user) {
         if (this.inputAdd) {
           this.liuyanAjax();
           this.inputAdd = "";
+          this.list.unshift(addCon);
         } else {
           alert("请输入评论内容");
         }
@@ -193,7 +201,7 @@ export default {
         this.list.splice(index, 1);
         this.axios({
           // url: "../../static/json/index.json",
-          url: "http://wwenj.com/liuyan?r=del",
+          url: "http://192.168.1.147/index.php?r=del",
           method: "get",
           params: {
             cid: cid,
@@ -207,7 +215,7 @@ export default {
             }
           })
           .catch(function(err) {
-            alert("ajax请求出错，错误信息：" + err);
+            alert("删除评论ajax请求出错，错误信息：" + err);
           });
       } else {
         alert("对不起，您没有权限");
@@ -215,13 +223,17 @@ export default {
     },
     /* 加载更多 */
     toMore: function() {
-      var arr = [];
-      this.limit.forEach(function(item, index, array) {
-        arr.push(item + 10);
-      });
-      this.limit = arr;
-      console.log(this.limit);
+      // var arr = [];
+      // this.limit.forEach(function(item, index, array) {
+      //   arr.push(item + 10);
+      // });
+      // this.limit = arr;
       this.listAjax();
+    },
+    /* 回复 */
+    toUser: function(userName) {
+      this.inputAdd = "@" + userName + "：";
+      alert(window.scrollTop());
     }
   }
 };
