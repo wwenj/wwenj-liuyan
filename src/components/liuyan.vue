@@ -96,7 +96,7 @@ export default {
           alert("获取评论ajax请求出错，错误信息：" + err);
         });
     },
-    /* 评论 */
+    /* 增加评论 */
     liuyanAjax: function() {
       var that = this;
       var user = localStorage.user;
@@ -110,7 +110,8 @@ export default {
           user_email: user.user_email,
           token: user.token,
           user_sex: user.user_sex,
-          content: this.inputAdd
+          content: this.inputAdd,
+          img: '../../static/img/headr-logo.png'
         },
         responseType: "json" // 响应数据类型 默认
       })
@@ -119,8 +120,8 @@ export default {
             alert(res.data.message);
           } else {
             // alert(that.list[0])
-            console.log(that.list[0].cid, res.data.data.last);
-            that.list[0].cid = res.data.data.last;
+            console.log(that.list[0].cid, res.data.data.cid);
+            that.list[0].cid = res.data.data.cid;
           }
         })
         .catch(function(err) {
