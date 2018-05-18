@@ -36,15 +36,22 @@
               </p>
             </div>
           </li>
-          <div class="more" @click="toMore">加载更多</div>
+          <div class="more" @click="toMore">{{fontEnd}}</div>
         </ul>
       </div>
     </div>
+    <!-- 返回顶部 -->
+    <transition name="fade">
+      <div v-show="isToTop==='1'" @click="toTop" class="toTop">
+        <img src="../../static/img/totop.png" alt="返回顶部" title="返回顶部">
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
 // import $ from "jquery";
+import bus from "../assets/eventBus.js";
 export default {
   name: "Liuyan",
   data() {
@@ -58,10 +65,17 @@ export default {
       token: "",
       user_sex: "",
       list: [],
-      limit: 15
+      limit: [0, 9],
+      fontEnd: "点击加载更多",
+      isToTop: 0
     };
   },
   mounted() {
+    var that = this;
+    bus.$on("toTopEvent", function(mse) {
+      // 兄弟组件通信
+      that.isToTop = mse;
+    });
     this.listAjax();
     if (localStorage.user) {
       var user = localStorage.user;
@@ -70,7 +84,7 @@ export default {
     }
   },
   methods: {
-    /* 获取评论列表数据 */
+    /* 获取评论 */
     listAjax: function() {
       var that = this;
       this.axios({
@@ -90,6 +104,10 @@ export default {
             res.data.data.list.forEach(function(item, index, array) {
               that.list.push(item);
             });
+            if (res.data.data.last === 1) {
+              // 判断后面是否还有数据
+              that.fontEnd = "已经到底部啦！";
+            }
           }
         })
         .catch(function(err) {
@@ -104,14 +122,14 @@ export default {
       this.axios({
         // url: "../../static/json/index.json",
         url: "http://192.168.1.147/index.php?r=add",
-        method: "get",
+        method: "post",
         params: {
           user_name: user.user_name,
           user_email: user.user_email,
           token: user.token,
           user_sex: user.user_sex,
           content: this.inputAdd,
-          img: '../../static/img/headr-logo.png'
+          img: "../../static/img/headr-logo.png"
         },
         responseType: "json" // 响应数据类型 默认
       })
@@ -224,17 +242,25 @@ export default {
     },
     /* 加载更多 */
     toMore: function() {
-      // var arr = [];
-      // this.limit.forEach(function(item, index, array) {
-      //   arr.push(item + 10);
-      // });
-      // this.limit = arr;
-      this.listAjax();
+      var arr = [];
+      this.limit.forEach(function(item, index, array) {
+        arr.push(item + 10);
+      });
+      this.limit = arr;
+      if (this.fontEnd === "已经到底部啦！") {
+        alert("没有更多评论啦!");
+      } else {
+        this.listAjax();
+      }
     },
     /* 回复 */
     toUser: function(userName) {
       this.inputAdd = "@" + userName + "：";
       alert(window.scrollTop());
+    },
+    toTop: () => {
+      bus.$emit("toTopEvent");
+      document.body.scrollTop = document.documentElement.scrollTop = 0;
     }
   }
 };
@@ -494,5 +520,37 @@ textarea {
 .more:hover {
   color: #f70;
   text-decoration: underline;
+}
+/* 返回顶部 */
+.toTop {
+  width: 50px;
+  height: 50px;
+  position: fixed;
+  right: 30px;
+  bottom: 40px;
+  background: rgb(122, 122, 122);
+  text-align: center;
+  line-height: 50px;
+  cursor: pointer;
+  transition: all 0.4s;
+  border-radius: 2px;
+}
+.toTop:hover {
+  background: rgb(114, 113, 113);
+}
+.toTop img {
+  width: 30px;
+  height: 30px;
+  vertical-align: middle;
+}
+.fade-enter {
+  opacity: 0;
+  right: 0px;
+}
+.fade-enter-active {
+  transition: all 0.3s;
+}
+.fade-enter-to {
+  right: 80px;
 }
 </style>

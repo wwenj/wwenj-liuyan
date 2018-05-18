@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import bus from "../assets/eventBus.js";
 export default {
   name: "Heade",
   data() {
@@ -38,6 +39,11 @@ export default {
     };
   },
   mounted() {
+    var that = this;
+    bus.$on("toTopEvent", function() {
+      // 兄弟组件通信
+      that.isNav = 0;
+    });
     if (document.addEventListener) {
       document.addEventListener("DOMMouseScroll", this.scrollFunc, false);
     }
@@ -45,26 +51,39 @@ export default {
   },
   methods: {
     scrollFunc: function(e) {
+      this.timeScroll();
       e = e || window.event;
       if (e.wheelDelta) {
         this.F = e.wheelDelta;
       } else if (e.detail) {
         this.F = e.detail;
       }
-      if (this.F === 3) { // 兼容火狐
+      if (this.F === 3) {
+        // 兼容火狐
         // console.log("火狐向下");
         this.isNav = 1;
       } else if (this.F === -3) {
         // console.log("火狐向上");
         this.isNav = 0;
       } else {
-        if (this.F < 0) { // 其他浏览器
+        if (this.F < 0) {
+          // 其他浏览器
           this.isNav = 1;
           // console.log("向下");
         } else {
           this.isNav = 0;
           // console.log("向上");
         }
+      }
+    },
+    timeScroll: function() {
+      if (document.body.scrollTop || document.documentElement.scrollTop > 400) {
+        bus.$emit("toTopEvent", "1");
+      } else if (
+        document.body.scrollTop ||
+        document.documentElement.scrollTop < 400
+      ) {
+        bus.$emit("toTopEvent", "0");
       }
     },
     openMark: function() {
@@ -172,7 +191,7 @@ export default {
   margin: auto;
 }
 /* 斜线阴影 */
-.blur{
+.blur {
   position: absolute;
   width: 0;
   height: 0;
@@ -180,7 +199,7 @@ export default {
   left: 0;
   border-style: solid;
   border-width: 0 0 30px 100vw;
-  border-color:  transparent #fff;
+  border-color: transparent #fff;
 }
 .nav-box:before {
   content: "";
@@ -191,7 +210,7 @@ export default {
   left: 0;
   border-style: solid;
   border-width: 0 0 30px 100vw;
-  border-color:  transparent rgba(0, 0, 0, 0.15);
+  border-color: transparent rgba(0, 0, 0, 0.15);
   filter: blur(2px);
 }
 /* 导航logo */
