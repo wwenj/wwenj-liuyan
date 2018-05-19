@@ -77,11 +77,11 @@ export default {
       }
     },
     timeScroll: function() {
-      if (document.body.scrollTop || document.documentElement.scrollTop > 400) {
+      if (document.body.scrollTop || document.documentElement.scrollTop > 800) {
         bus.$emit("toTopEvent", "1");
       } else if (
         document.body.scrollTop ||
-        document.documentElement.scrollTop < 400
+        document.documentElement.scrollTop < 800
       ) {
         bus.$emit("toTopEvent", "0");
       }

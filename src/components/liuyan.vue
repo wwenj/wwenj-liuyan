@@ -135,14 +135,16 @@ export default {
       })
         .then(function(res) {
           if (res.data.error_code !== 0) {
+            that.list.splice(0, 1);
             alert(res.data.message);
           } else {
             // alert(that.list[0])
-            console.log(that.list[0].cid, res.data.data.cid);
+            // console.log(that.list[0].cid, res.data.data.cid);
             that.list[0].cid = res.data.data.cid;
           }
         })
         .catch(function(err) {
+          that.list.splice(0, 1);
           alert("增加评论ajax请求出错，错误信息：" + err);
         });
     },
@@ -552,5 +554,12 @@ textarea {
 }
 .fade-enter-to {
   right: 80px;
+}
+.fade-leave-active {
+  transition: all 0.3s;
+}
+.fade-leave-to {
+  right: 0px;
+  opacity: 0;
 }
 </style>
