@@ -10,7 +10,7 @@
           <a href="http://blog.wwenj.com/" target="_Blank">博文</a>
           <a href="http://resume.wwenj.com/" target="_Blank">简历</a>
           <a href="http://yun.wwenj.com/" target="_Blank">实验室</a>
-          <a href="http://liuyan.wwenj.com/" target="_Blank">留言</a>
+          <a href="http://liuyan.wwenj.com/">留言</a>
         </div>
         <div class="bot" @click="openMark"></div>
       </div>
@@ -21,7 +21,7 @@
       <a href="http://blog.wwenj.com/" target="_Blank">博文</a>
       <a href="http://resume.wwenj.com/" target="_Blank">简历</a>
       <a href="http://yun.wwenj.com/" target="_Blank">实验室</a>
-      <a href="http://liuyan.wwenj.com/" target="_Blank">留言</a>
+      <a href="http://liuyan.wwenj.com/">留言</a>
       <span @click="closeMark">X</span>
     </div>
   </div>
@@ -77,12 +77,9 @@ export default {
       }
     },
     timeScroll: function() {
-      if (document.body.scrollTop || document.documentElement.scrollTop > 800) {
+      if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
         bus.$emit("toTopEvent", "1");
-      } else if (
-        document.body.scrollTop ||
-        document.documentElement.scrollTop < 800
-      ) {
+      } else if (document.body.scrollTop < 800 || document.documentElement.scrollTop < 800) {
         bus.$emit("toTopEvent", "0");
       }
     },

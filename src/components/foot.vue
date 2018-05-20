@@ -35,8 +35,8 @@
               </a>
             </span>
             <span>
-              <a href="https://segmentfault.com/u/xiaojian_58f49e4595dce" target="_Blank">
-                <img src="../../static/img/you.png" title="SegmentFault" width="25" height="25">
+              <a href="http://blog.wwenj.com/" target="_Blank">
+                <img src="../../static/img/you.png" title="博客" width="25" height="25">
               </a>
             </span>
             <span>
@@ -53,7 +53,7 @@
         <p id="foot-aa">感谢
           <a href="http://bh-lay.com/" target="_Blank"> 小剧客栈 </a>提供的参考设计，阿里云提供的优质云服务，使我完成本网站的首页制作</p>
         <div class="suo">
-          <input type="text">
+          <input type="text" :style="isBg==1?'background-color: #cfcece':''" @focus="inputFocus" @blur="inputBlur">
           <input type="button" value="搜索">
         </div>
         <div class="jing">
@@ -69,10 +69,19 @@
 export default {
   name: "Foot",
   data() {
-    return {};
+    return {
+      isBg: 0
+    };
   },
   mounted() {},
-  methods: {}
+  methods: {
+    inputFocus: function() {
+      this.isBg = 1;
+    },
+    inputBlur: function() {
+      this.isBg = 0;
+    }
+  }
 };
 </script>
 
@@ -207,20 +216,20 @@ export default {
   margin: 0 auto;
 }
 
-#blog-foot12580 .food-bottom P {
+#blog-foot12580 .food-bottom p {
   color: #888;
   font-size: 13px;
   margin-top: 20px;
   text-align: center;
 }
 
-#blog-foot12580 .food-bottom P a {
+#blog-foot12580 .food-bottom p a {
   color: rgb(204, 201, 201);
   transition: all 0.5s;
   text-decoration: underline;
 }
 
-#blog-foot12580 .food-bottom P a:hover {
+#blog-foot12580 .food-bottom p a:hover {
   color: #f70;
 }
 

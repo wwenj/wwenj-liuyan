@@ -65,7 +65,7 @@ export default {
       token: "",
       user_sex: "",
       list: [],
-      limit: [0, 9],
+      limit: [1, 10],
       fontEnd: "点击加载更多",
       isToTop: 0
     };
@@ -122,7 +122,7 @@ export default {
       this.axios({
         // url: "../../static/json/index.json",
         url: "http://192.168.1.147/index.php?r=add",
-        method: "post",
+        method: "get",
         params: {
           user_name: user.user_name,
           user_email: user.user_email,
