@@ -7,7 +7,7 @@
           <img src="../../static/img/headr-logo.png" alt="头像">
           <p>{{user_name}}</p>
         </div>
-        <textarea v-model="inputAdd" :id="isInput1==1?'input':''" @focus="inputFocus(1)" @blur="inputBlur(1)" type="text" placeholder="说点什么吧 富强 民主 文明 和谐"></textarea>
+        <textarea v-model="inputAdd" :id="isInput1==1?'input':''" @focus="inputFocus(1)" @blur="inputBlur(1)" type="text" placeholder="说点什么吧 富强 民主 文明 和谐" ref="input"></textarea>
         <div class="inputAdd" :id="isInput2==1?'inputAdd':''">
           <span @click="add">发布</span>
         </div>
@@ -65,7 +65,7 @@ export default {
       token: "",
       user_sex: "",
       list: [],
-      limit: [1, 10],
+      limit: [0, 10],
       fontEnd: "点击加载更多",
       isToTop: 0
     };
@@ -165,16 +165,17 @@ export default {
     /* 增加评论 */
     add: function() {
       /* 临时添加 */
-      var user = localStorage.user;
-      user = JSON.parse(user);
-      var addCon = {
-        user_name: user.user_name,
-        time: "17:20 2018-5-4",
-        img: "",
-        content: this.inputAdd,
-        cid: 0
-      };
       if (localStorage.user) {
+        var user = localStorage.user;
+        user = JSON.parse(user);
+        var addCon = {
+          user_name: user.user_name,
+          time: "17:20 2018-5-4",
+          img: "",
+          content: this.inputAdd,
+          cid: 0
+        };
+
         if (this.inputAdd) {
           this.liuyanAjax();
           this.inputAdd = "";
@@ -188,7 +189,7 @@ export default {
     },
     changeUser: function() {
       this.userShow = 1;
-      this.user_name = "";
+      // this.user_name = "";
     },
     /* 确认个人信息 */
     saveUser: function() {
@@ -258,7 +259,12 @@ export default {
     /* 回复 */
     toUser: function(userName) {
       this.inputAdd = "@" + userName + "：";
-      alert(window.scrollTop());
+      if (document.body.scrollTop) {
+        document.body.scrollTop = 0;
+      } else {
+        document.documentElement.scrollTop = 0;
+      }
+      this.$refs.input.focus();
     },
     toTop: () => {
       bus.$emit("toTopEvent");
@@ -408,7 +414,7 @@ textarea {
   opacity: 1;
 }
 .user-box input {
-  width: 200px;
+  width: 35%;
   height: 30px;
   outline: none;
   border: 1px solid #fff;
