@@ -3,8 +3,8 @@
 
  ## 项目截图
 
-![预览截图](https://github.com/wwenj/wwenj-liuyan/blob/master/Screenshots/1.png)
 ![预览截图](https://github.com/wwenj/wwenj-liuyan/blob/master/Screenshots/2.png)
+![预览截图](https://github.com/wwenj/wwenj-liuyan/blob/master/Screenshots/1.png)
 
 ## 技术栈
 - **前端：** vue es6
